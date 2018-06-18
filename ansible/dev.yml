@@ -1,0 +1,12 @@
+---
+- name: Install
+  hosts: localhost
+  remote_user: root
+  # remote_user: user
+  # sudo: yes
+  roles:
+    - common
+    - python
+    - php-fpm
+    - mysql
+    - nginx

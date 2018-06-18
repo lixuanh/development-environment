@@ -1,0 +1,21 @@
+---
+- name: Install RPM
+  yum: name=https://centos7.iuscommunity.org/ius-release.rpm state=present
+  tags: python
+
+- name: Install Python3 and deps
+  yum: name={{ item }} state=present
+  with_items:
+    - python36
+    - python36-devel
+    - python36-libs
+    - python36u-pip
+  tags: python
+
+- name: Upgrade pip
+  command: python36 -m pip install --upgrade pip
+  tags: python
+
+- name: Install pip install uwsgi
+  command: python36 -m pip install uwsgi
+  tags: python

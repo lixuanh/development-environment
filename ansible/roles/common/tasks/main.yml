@@ -1,0 +1,37 @@
+---
+#- name: ruby install
+#   yum: name=ruby state=present
+
+# - name: EPEL install
+#   yum: name=epel-release state=present
+
+# - name: upgrade all packages
+#   yum: name='*' state=latest
+
+# - name: add host
+#   lineinfile:
+#     dest: /etc/hosts
+#     regexp: 'localtest.com'
+#     line: '127.0.0.1 localtest.com'
+#   when: fm.stat.exists
+
+- name: Install Firewalld
+  yum: name=firewalld state=present
+  tags: common
+
+- name: Firewalld service state
+  service: name=firewalld state=restarted enabled=yes
+  tags: common
+
+# 'selinux' not supported in vagrant VM.
+# If you use VitualBox, set to permissive
+# Manually, >_ setenforce Permissive
+#   enforcing - SELinux security policy is enforced.
+#   permissive - SELinux prints warnings instead of enforcing.
+#   disabled - No SELinux policy is loaded.
+- name: Selinux disabled
+  lineinfile:
+    dest: /etc/sysconfig/selinux
+    regexp: '^SELINUX=enforcing'
+    line: 'SELINUX=disabled'
+  tags: common
